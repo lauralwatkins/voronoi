@@ -7,12 +7,12 @@
 
 from numpy import *
 from matplotlib.pyplot import *
-from weighted_centroid import *
-from bin_roundness import *
-from accretion import *
-from reassign_bad_bins import *
-from cvt_equal_mass import *
-from bin_quantities import *
+from .weighted_centroid import *
+from .bin_roundness import *
+from .accretion import *
+from .reassign_bad_bins import *
+from .cvt_equal_mass import *
+from .bin_quantities import *
 
 
 def bin2d(x, y, signal, noise, targetsn, cvt=True, wvt=False, quiet=True,

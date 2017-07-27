@@ -6,7 +6,7 @@
 # -----------------------------------------------------------------------------
 
 from numpy import *
-from bin_roundness import bin_roundness
+from .bin_roundness import bin_roundness
 
 
 def accretion(x, y, signal, noise, targetsn, pixelsize=False, quiet=False):
