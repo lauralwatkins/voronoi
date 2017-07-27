@@ -55,7 +55,7 @@ def accretion(x, y, signal, noise, targetsn, pixelsize=False, quiet=False):
     for ind in range(1, n+1):
         
         if not quiet:
-            print "  bin: {:} / {:}".format(ind, maxnum)
+            print("  bin: {:} / {:}".format(ind, maxnum))
         
         # to start the current bin is only one pixel
         clas[currentbin] = ind

@@ -68,7 +68,7 @@ def cvt_equal_mass(x, y, signal, noise, xnode, ynode, quiet=True, wvt=False):
         iters = iters + 1
         
         if not quiet:
-            print "  iteration: {:}  difference: {:}".format(iters, diff)
+            print("  iteration: {:}  difference: {:}".format(iters, diff))
     
     # only return the generators of the nonzero voronoi bins
     xnode = xnode[nonzero]

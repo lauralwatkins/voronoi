@@ -40,10 +40,10 @@ def bin2d(x, y, signal, noise, targetsn, cvt=True, wvt=False, quiet=True,
     
     npix = x.size
     if y.size != x.size or signal.size != x.size or noise.size != x.size:
-        print "ERROR: input vectors (x, y, signal, noise) must have same size"
+        print("ERROR: input vectors (x, y, signal, noise) must have same size")
         return
     if any(noise < 0):
-        print "ERROR: noise cannot be negative"
+        print("ERROR: noise cannot be negative")
         return
     
     # prevent division by zero for pixels with signal=0 and
@@ -52,40 +52,40 @@ def bin2d(x, y, signal, noise, targetsn, cvt=True, wvt=False, quiet=True,
     
     # Perform basic tests to catch common input errors
     if signal.sum()/sqrt((noise**2).sum()) < targetsn:
-        print "Not enough S/N in the whole set of pixels. " \
+        print("Not enough S/N in the whole set of pixels. " \
             + "Many pixels may have noise but virtually no signal. " \
             + "They should not be included in the set to bin, " \
             + "or the pixels should be optimally weighted." \
-            + "See Cappellari & Copin (2003, Sec.2.1) and README file."
+            + "See Cappellari & Copin (2003, Sec.2.1) and README file.")
         return
     if (signal/noise).min() > targetsn:
-        print "EXCEPTION: all pixels have enough S/N -- binning not needed"
+        print("EXCEPTION: all pixels have enough S/N -- binning not needed")
         return
     
-    if not quiet: print "Bin-accretion..."
+    if not quiet: print("Bin-accretion...")
     clas = accretion(x, y, signal, noise, targetsn, quiet=quiet)
-    if not quiet: print "{:} initial bins\n".format(clas.max())
+    if not quiet: print("{:} initial bins\n".format(clas.max()))
     
-    if not quiet: print "Reassign bad bins..."
+    if not quiet: print("Reassign bad bins...")
     xnode, ynode = reassign_bad_bins(x, y, signal, noise, targetsn, clas)
-    if not quiet: print "{:} good bins\n".format(xnode.size)
+    if not quiet: print("{:} good bins\n".format(xnode.size))
     
     if cvt:
-        if not quiet: print "Modified Lloyd algorithm..."
+        if not quiet: print("Modified Lloyd algorithm...")
         scale, iters = cvt_equal_mass(x, y, signal, noise, xnode, ynode,
             quiet=quiet, wvt=wvt)
-        if not quiet: print "  iterations: {:}".format(iters-1)
+        if not quiet: print("  iterations: {:}".format(iters-1))
     else:
         scale = 1.
     
-    if not quiet: print "Recompute bin properties..."
+    if not quiet: print("Recompute bin properties...")
     clas, xbar, ybar, sn, area = bin_quantities(x, y, signal, noise, xnode,
         ynode, scale)
     unb = where(area == 1)[0]
     binned = where(area != 1)[0]
-    if not quiet: print "Unbinned pixels: {:} / {:}".format(unb.size, npix)
+    if not quiet: print("Unbinned pixels: {:} / {:}".format(unb.size, npix))
     fracscat = ((sn[binned]-targetsn)/targetsn*100.).std()
-    if not quiet: print "Fractional S/N scatter (%):", fracscat
+    if not quiet: print("Fractional S/N scatter (%):", fracscat)
     
     if graphs:
         
