@@ -62,3 +62,4 @@ for ax in fig.axes:
     ax.set_xticklabels([]); ax.set_yticklabels([])
     
 fig.tight_layout(pad=0.1)
+fig.savefig('test.png')
