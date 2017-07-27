@@ -1,4 +1,8 @@
-# use glob syntax.
-syntax: glob
-
 *.DS_Store
+
+*.pyc
+__pycache__/
+
+build/
+dist/
+*.egg-info/
