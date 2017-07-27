@@ -7,7 +7,7 @@
 # -----------------------------------------------------------------------------
 
 from numpy import *
-from weighted_centroid import weighted_centroid
+from .weighted_centroid import weighted_centroid
 
 
 def bin_quantities(x, y, signal, noise, xnode, ynode, scale):
