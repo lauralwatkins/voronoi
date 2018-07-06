@@ -1,12 +1,11 @@
 #!/usr/bin/env python
 # -----------------------------------------------------------------------------
 # VORONOI.BIN_QUANTITIES
-# Laura L Watkins [lauralwatkins@gmail.com]
 # - converted from IDL code by Michele Cappellari
 #   (bin2d_compute_useful_bin_quantities)
 # -----------------------------------------------------------------------------
 
-from numpy import *
+import numpy as np
 from .weighted_centroid import weighted_centroid
 
 
@@ -28,24 +27,23 @@ def bin_quantities(x, y, signal, noise, xnode, ynode, scale):
       scale  : bin scale
     """
     
-    
-    clas = zeros(x.size, dtype="int")   # will contain bin num of given pixels
+    clas = np.zeros(x.size, dtype="int")   # will contain bin num of given pixels
     for j in range(x.size):
         clas[j] = (((x[j]-xnode)/scale)**2 + ((y[j]-ynode)/scale)**2).argmin()
     
     # At the end of the computation evaluate the bin luminosity-weighted
     # centroids (xbar,ybar) and the corresponding final S/N of each bin.
     
-    area, lim = histogram(clas, bins=clas.ptp()+1.,
+    area, lim = np.histogram(clas, bins=int(clas.ptp())+1,
         range=(clas.min()-0.5, clas.max()+0.5))
     cent = (lim[:-1]+lim[1:])/2.
     
-    xb = zeros(xnode.size)
-    yb = zeros(xnode.size)
-    sn = zeros(xnode.size)
+    xb = np.zeros(xnode.size)
+    yb = np.zeros(xnode.size)
+    sn = np.zeros(xnode.size)
     for j in range(xnode.size):
-        pix = where(clas == cent[j])[0]
+        pix = np.where(clas == cent[j])[0]
         xb[j], yb[j] = weighted_centroid(x[pix], y[pix], signal[pix])
-        sn[j] = signal[pix].sum()/sqrt((noise[pix]**2).sum())
+        sn[j] = signal[pix].sum()/np.sqrt((noise[pix]**2).sum())
     
     return clas, xb, yb, sn, area

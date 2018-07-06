@@ -24,7 +24,8 @@ def reassign_bad_bins(x, y, signal, noise, targetsn, clas):
     
     
     # get number of pixels in each bin (clas=0 are unassigned pixels)
-    area, lim = histogram(clas, bins=clas.ptp(), range=(0.5,clas.max()+0.5))
+    area, lim = histogram(clas, bins=int(clas.ptp()),
+        range=(0.5,clas.max()+0.5))
     cent = (lim[:-1]+lim[1:])/2.
     
     # indices of good bins
@@ -46,7 +47,8 @@ def reassign_bad_bins(x, y, signal, noise, targetsn, clas):
     
     # recompute all centroids of the reassigned bins
     # these will be used as starting points for the CVT
-    area, lim = histogram(clas, bins=clas.ptp()+1, range=(0.5,clas.max()+0.5))
+    area, lim = histogram(clas, bins=int(clas.ptp())+1,
+        range=(0.5,clas.max()+0.5))
     cent = (lim[:-1]+lim[1:])/2.
     
     good = where(area > 0)[0]

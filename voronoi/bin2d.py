@@ -81,10 +81,10 @@ def bin2d(x, y, signal, noise, targetsn, cvt=True, wvt=False, quiet=True,
     if not quiet: print("Recompute bin properties...")
     clas, xbar, ybar, sn, area = bin_quantities(x, y, signal, noise, xnode,
         ynode, scale)
-    unb = where(area == 1)[0]
-    binned = where(area != 1)[0]
-    if not quiet: print("Unbinned pixels: {:} / {:}".format(unb.size, npix))
-    fracscat = ((sn[binned]-targetsn)/targetsn*100.).std()
+    unb = area==1
+    binned = area!=1
+    if not quiet: print("Unbinned pixels: {:} / {:}".format(sum(unb), npix))
+    fracscat = ((sn[binned]-targetsn)/targetsn*100).std()
     if not quiet: print("Fractional S/N scatter (%):", fracscat)
     
     if graphs:
